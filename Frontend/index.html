@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Portal | Secure & AI-Powered</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav id="navbar" class="hidden">
+        <div class="nav-content">
+            <div class="logo">ResolveAI</div>
+            <div class="nav-links">
+                <a href="#" id="nav-home" class="user-only">New Complaint</a>
+                <a href="#" id="nav-my-complaints" class="user-only">My Complaints</a>
+                <a href="#" id="nav-admin" class="admin-only">Admin Dashboard</a>
+                <button id="logout-btn">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <main id="app">
+        <!-- Views will be injected here -->
+        <div id="loader" class="loader-container">
+            <div class="spinner"></div>
+        </div>
+    </main>
+
+    <div id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
