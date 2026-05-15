@@ -1,9 +1,9 @@
 // --- Configuration ---
 // REPLACE this with your actual Render URL after deploying
-const RENDER_BACKEND_URL = 'https://complaints-registration.onrender.com'; 
+const RENDER_BACKEND_URL = 'https://complaints-registration-platform-full-qzsw.onrender.com';
 
 const BACKEND_BASE_URL = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost')
-    ? 'http://localhost:3000' 
+    ? 'http://localhost:3000'
     : RENDER_BACKEND_URL;
 
 const API_URL = `${BACKEND_BASE_URL}/api`;

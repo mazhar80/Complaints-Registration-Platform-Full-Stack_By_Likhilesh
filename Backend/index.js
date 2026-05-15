@@ -12,8 +12,21 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://127.0.0.1:5500",
+  "http://localhost:5500",
+  "https://mazhar80.github.io"
+];
+
 app.use(cors({
-  origin: true, // Reflect request origin
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 }));
 app.use(express.json());
@@ -183,9 +196,10 @@ app.post("/api/auth/login", async (req, res) => {
     const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
     res.cookie("token", token, {
-      httpOnly: false,
-      secure: false, // Changed for local testing
-      sameSite: "lax",
+      httpOnly: true,
+      secure: true, // Required for SameSite=None
+      sameSite: "none", // Required for cross-origin
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
     res.json({ name: user.name, email: user.email, role: user.role });
@@ -196,7 +210,11 @@ app.post("/api/auth/login", async (req, res) => {
 });
 
 app.post("/api/auth/logout", (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
   res.json({ message: "Logged out successfully" });
 });
 
