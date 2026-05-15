@@ -1,4 +1,6 @@
-const BACKEND_BASE_URL = 'http://localhost:3000';
+const BACKEND_BASE_URL = window.location.port === '5500' || window.location.port === '5501' 
+    ? 'http://localhost:3000' 
+    : window.location.origin;
 const API_URL = `${BACKEND_BASE_URL}/api`;
 let currentUser = null;
 

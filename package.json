@@ -1,0 +1,12 @@
+{
+  "name": "complaints-registration-platform",
+  "version": "1.0.0",
+  "description": "Full-stack Complaints Registration Platform",
+  "scripts": {
+    "install-backend": "cd Backend && npm install",
+    "build": "npm run install-backend && cd Backend && npm run build",
+    "start": "cd Backend && npm start"
+  },
+  "author": "",
+  "license": "ISC"
+}

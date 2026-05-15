@@ -13,22 +13,23 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors({
-  origin: ["http://127.0.0.1:5500", "http://localhost:3000"],
+  origin: true, // Reflect request origin
   credentials: true,
 }));
 app.use(express.json());
 app.use(cookieParser());
 
-// Serve static files from the 'Frontend' directory at the root level
+// Serve static files from the 'Frontend' directory
 import path from "path";
 import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use(express.static("E:/Mazhar Imam/Official Work/AI and Portal Research/AI Classes by Programming Pathshala/Frontend and Backend Full Stack By Lik/Complaints-Registration-Platform-Full-Stack_By_Likhilesh/Frontend"));
+
+app.use(express.static(path.join(__dirname, "../Frontend")));
 
 // Serve index.html for the root route
 app.get("/", (req, res) => {
-  res.sendFile("E:/Mazhar Imam/Official Work/AI and Portal Research/AI Classes by Programming Pathshala/Frontend and Backend Full Stack By Lik/Complaints-Registration-Platform-Full-Stack_By_Likhilesh/Frontend/index.html");
+  res.sendFile(path.join(__dirname, "../Frontend/index.html"));
 });
 
 // --- Middleware ---
