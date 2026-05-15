@@ -1,12 +1,13 @@
-const BACKEND_BASE_URL = window.location.port === '5500' || window.location.port === '5501' 
+// --- Configuration ---
+// REPLACE this with your actual Render URL after deploying
+const RENDER_BACKEND_URL = 'https://complaints-registration.onrender.com'; 
+
+const BACKEND_BASE_URL = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost')
     ? 'http://localhost:3000' 
-    : window.location.origin;
+    : RENDER_BACKEND_URL;
+
 const API_URL = `${BACKEND_BASE_URL}/api`;
 let currentUser = null;
-
-const app = document.getElementById('app');
-const navbar = document.getElementById('navbar');
-const toastContainer = document.getElementById('toast-container');
 
 // --- Helpers ---
 
@@ -30,7 +31,7 @@ async function apiCall(endpoint, method = 'GET', body = null) {
         headers: { 'Content-Type': 'application/json' },
     };
     if (body) options.body = JSON.stringify(body);
-    
+
     // Credentials true for cookies
     options.credentials = 'include';
 
@@ -97,7 +98,7 @@ async function showRegister() {
         const email = document.getElementById('reg-email').value;
         const btn = document.getElementById('reg-submit-btn');
         const spinner = document.getElementById('reg-spinner');
-        
+
         btn.classList.add('hidden');
         spinner.classList.remove('hidden');
 
@@ -233,7 +234,7 @@ async function showLogin() {
             updateNavbar();
             if (user.role === 'admin') showAdminDashboard();
             else showMyComplaints();
-        } catch (err) {}
+        } catch (err) { }
     };
 }
 
@@ -271,10 +272,10 @@ async function showComplaintSubmission() {
 
     getAiBtn.onclick = async () => {
         if (!complaintText.value) return showToast('Please enter your complaint first', 'error');
-        
+
         getAiBtn.disabled = true;
         getAiBtn.textContent = 'AI is thinking...';
-        
+
         try {
             const { question } = await apiCall('/ai/question', 'POST', { complaint_text: complaintText.value });
             aiQuestionText.textContent = question;
@@ -299,7 +300,7 @@ async function showComplaintSubmission() {
             await apiCall('/complaints', 'POST', data);
             showToast('Complaint submitted successfully!');
             showMyComplaints();
-        } catch (err) {}
+        } catch (err) { }
     };
 }
 
@@ -333,7 +334,7 @@ async function showMyComplaints() {
             </div>
         `;
         document.getElementById('btn-new-complaint').onclick = showComplaintSubmission;
-    } catch (err) {}
+    } catch (err) { }
 }
 
 async function showAdminDashboard() {
@@ -362,7 +363,7 @@ async function showAdminDashboard() {
                 `).join('')}
             </div>
         `;
-    } catch (err) {}
+    } catch (err) { }
 }
 
 // --- Initialization ---
@@ -385,7 +386,7 @@ document.getElementById('logout-btn').onclick = async () => {
         currentUser = null;
         updateNavbar();
         showLogin();
-    } catch (err) {}
+    } catch (err) { }
 };
 
 document.getElementById('nav-home').onclick = (e) => { e.preventDefault(); showComplaintSubmission(); };
